@@ -1,28 +1,39 @@
-#[derive(Debug, PartialEq)]
+use int_enum::IntEnum;
+use enum_iterator::IntoEnumIterator;
+use std::fmt;
+
+#[repr(usize)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, IntEnum, IntoEnumIterator)]
 pub enum ResistorColor {
-    Black,
-    Blue,
-    Brown,
-    Green,
-    Grey,
-    Orange,
-    Red,
-    Violet,
-    White,
-    Yellow,
+    Black = 0,
+    Brown = 1,
+    Red = 2,
+    Orange = 3,
+    Yellow = 4,
+    Green = 5,
+    Blue = 6,
+    Violet = 7,
+    Grey = 8,
+    White = 9,
+}
+
+impl fmt::Display for ResistorColor {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        fmt::Debug::fmt(self, f)
+    }
 }
 
 pub fn color_to_value(_color: ResistorColor) -> usize {
-    unimplemented!("convert a color into a numerical representation")
+    _color.int_value()
 }
 
 pub fn value_to_color_string(value: usize) -> String {
-    unimplemented!(
-        "convert the value {} into a string representation of color",
-        value
-    )
+    match ResistorColor::from_int(value) {
+        Ok(color) => color.to_string(),
+        Err(_) => String::from("value out of range"),
+    }
 }
 
 pub fn colors() -> Vec<ResistorColor> {
-    unimplemented!("return a list of all the colors ordered by resistance")
+    return ResistorColor::into_enum_iter().map(|x| x).collect();
 }
