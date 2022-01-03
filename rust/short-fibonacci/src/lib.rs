@@ -17,23 +17,30 @@ pub fn create_buffer(count: usize) -> Vec<u8> {
 pub fn fibonacci() -> Vec<u8> {
     let n: usize = 5;
     let mut zeros = create_buffer(n);
-    let mut prev: u8 = 1;
-    let mut curr: u8 = 1;
+    for i in 0..zeros.len() {
+        match i {
+            0 | 1 => zeros[i] = 1,
+            _ => zeros[i] = &zeros[i - 1] + &zeros[i - 2]
+        }
+    }
+    zeros
+    // let mut prev: u8 = 1;
+    // let mut curr: u8 = 1;
  
-    let _ = zeros
-        .iter_mut()
-        .enumerate()
-        .map(|(i, val)| {
-            match i {
-                0 | 1 => *val = 1,
-                _ => {
-                    *val = curr + prev;
-                    prev = curr;
-                    curr = *val;
-                }
-            }
-        })
-        .collect::<Vec<_>>();    
-    zeros.to_vec()
+    // let _ = zeros
+    //     .iter_mut()
+    //     .enumerate()
+    //     .map(|(i, val)| {
+    //         match i {
+    //             0 | 1 => *val = 1,
+    //             _ => {
+    //                 *val = curr + prev;
+    //                 prev = curr;
+    //                 curr = *val;
+    //             }
+    //         }
+    //     })
+    //     .collect::<Vec<_>>();    
+    // zeros.to_vec()
 
 }
