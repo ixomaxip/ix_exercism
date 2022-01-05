@@ -15,7 +15,7 @@ fn calc_result(stack: &mut Vec<Option<i32>>, operator: &CalculatorInput) -> Opti
                     CalculatorInput::Divide => Some(a / b),
                     CalculatorInput::Add => Some(a + b),
                     CalculatorInput::Subtract => Some(a - b),
-                    _ => None
+                    _ => unreachable!()
                 };
             },
         _ => return None
