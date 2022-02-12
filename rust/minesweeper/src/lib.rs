@@ -54,5 +54,31 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
 
     let mut vv = v.chunks(m)
         .collect::<Vec<_>>();
+    let mut arr = vec![vec![0i32; n]; m];
+
+    for (ids, s) in minefield.iter().enumerate() {
+        for (idc, ch) in s.chars().enumerate() {
+            match ch {
+                '*' => arr[idc][ids] = -1,
+                _ => arr[idc][ids] = 0,
+            }
+            
+        }
+
+    }
+    println!("{:?}", arr);
+    let _ = minefield
+        .iter()
+        .enumerate()
+        .map(|(ids, &s)|
+            for (idc, ch) in s.chars().enumerate() {
+                match ch {
+                    '*' => arr[idc][ids] += -2,
+                    _ => arr[idc][ids] = 0,
+                }
+
+            }
+        )
+        .collect::<Vec<_>>();
     res
 }
