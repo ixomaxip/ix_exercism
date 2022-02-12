@@ -1,3 +1,39 @@
+use std::cmp::{min, max, Ordering};
+
+struct MineField<'mf> {
+    n: usize,
+    m: usize,
+    field: Vec<&'mf [i32]>
+}
+
+impl<'mf> MineField<'mf> {
+    
+    pub fn new(minefield: &[&str]) -> Self {
+        let n = minefield.len();
+        let m = minefield[0].len();
+
+        let v = minefield
+            .concat()
+            .chars()
+            .map(|ch| match ch {
+                '*' => -1,
+                _ => 0
+            })
+            .collect::<Vec<_>>();
+
+        let field = v
+            .chunks(m)
+            .collect::<Vec<_>>();
+
+        let m = MineField {
+            n,
+            m,
+            field: field.clone(),
+        };
+        // println!("end")
+        m
+    }
+}
 
 fn get_idxs(idx: usize, n: usize, m: usize) -> Vec<usize> {
     
@@ -49,10 +85,14 @@ fn find_mines(i: usize, j: usize, v: &mut Vec<&mut [i32]>) {
     }
 
 }
+
 pub fn annotate(minefield: &[&str]) -> Vec<String> {
     let res: Vec<String> = vec!();
+
     let n = minefield.len();
     let m = minefield[0].len();
+
+    let field = MineField::new(minefield);
 
     let mut v = minefield
         .concat()
@@ -65,7 +105,8 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
 
     let mut vv = v.chunks(m)
         .collect::<Vec<_>>();
-    let mut arr = vec![vec![0i32; n]; m];
+
+        let mut arr = vec![vec![0i32; n]; m];
 
     for (ids, s) in minefield.iter().enumerate() {
         for (idc, ch) in s.chars().enumerate() {
