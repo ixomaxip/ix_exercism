@@ -52,9 +52,7 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
         })
         .collect::<Vec<_>>();
 
-    let dim = Dim {
-        n: minefield.len(),
-        m: v.len() / minefield.len()
-    };
+    let mut vv = v.chunks(m)
+        .collect::<Vec<_>>();
     res
 }
