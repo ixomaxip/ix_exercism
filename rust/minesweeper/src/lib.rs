@@ -40,6 +40,8 @@ fn get_idxs(idx: usize, n: usize, m: usize) -> Vec<usize> {
 }
 pub fn annotate(minefield: &[&str]) -> Vec<String> {
     let res: Vec<String> = vec!();
+    let n = minefield.len();
+    let m = minefield[0].len();
 
     let mut v = minefield
         .concat()
