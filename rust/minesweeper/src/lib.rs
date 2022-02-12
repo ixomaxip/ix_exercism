@@ -38,6 +38,17 @@ fn get_idxs(idx: usize, n: usize, m: usize) -> Vec<usize> {
 
     res
 }
+
+fn find_mines(i: usize, j: usize, v: &mut Vec<&mut [i32]>) {
+    let mask = vec!((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1));
+
+    for dir in mask {
+        let i_check = i as i32 + dir.0;
+        let j_check = j as i32 + dir.1;
+
+    }
+
+}
 pub fn annotate(minefield: &[&str]) -> Vec<String> {
     let res: Vec<String> = vec!();
     let n = minefield.len();
