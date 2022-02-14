@@ -38,8 +38,6 @@ fn mod_pow(p: u64, g: u64, a: u64) -> u64 {
     let mut y = a as u128;
     let big_p = p as u128;
 
-    println!("x = {}\ny = {}\np = {}", x, y, p);
-
     x = x % p as u128;
 
     let mut res: u128 = 1;
