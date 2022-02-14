@@ -33,13 +33,26 @@ pub fn private_key(p: u64) -> u64 {
     rng.gen_range(2..p)
 }
 
+fn mod_pow(p: u64, g: u64, a: u64) -> u64 {    
+    let mut x = g;
+    let mut y = a;
+
+    let mut res: u64 = 1;
+    while y > 0 {
+        if y & 1 != 0 {
+            res = (res * x) % p;
+        }
+        y = y >> 1;
+        x = (x * x) % p;
+    }
+
+
+    res
+
+}
+
 pub fn public_key(p: u64, g: u64, a: u64) -> u64 {
-    unimplemented!(
-        "Calculate public key using prime numbers {} and {}, and private key {}",
-        p,
-        g,
-        a
-    )
+    mod_pow(p, g, a)
 }
 
 pub fn secret(p: u64, b_pub: u64, a: u64) -> u64 {

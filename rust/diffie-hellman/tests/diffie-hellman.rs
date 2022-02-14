@@ -13,7 +13,6 @@ fn test_private_key_in_range_key() {
 }
 
 #[test]
-#[ignore]
 fn test_public_key_correct() {
     let p: u64 = 23;
     let g: u64 = 5;
