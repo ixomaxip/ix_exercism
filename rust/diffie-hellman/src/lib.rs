@@ -34,21 +34,23 @@ pub fn private_key(p: u64) -> u64 {
 }
 
 fn mod_pow(p: u64, g: u64, a: u64) -> u64 {    
-    let mut x = g;
-    let mut y = a;
+    let mut x = g as u128;
+    let mut y = a as u128;
+    let big_p = p as u128;
 
-    let mut res: u64 = 1;
+    println!("x = {}\ny = {}\np = {}", x, y, p);
+
+    x = x % p as u128;
+
+    let mut res: u128 = 1;
     while y > 0 {
         if y & 1 != 0 {
-            res = (res * x) % p;
+            res = (res * x) % big_p;
         }
         y = y >> 1;
-        x = (x * x) % p;
+        x = (x * x) % big_p;
     }
-
-
-    res
-
+    res as u64
 }
 
 pub fn public_key(p: u64, g: u64, a: u64) -> u64 {
@@ -56,10 +58,5 @@ pub fn public_key(p: u64, g: u64, a: u64) -> u64 {
 }
 
 pub fn secret(p: u64, b_pub: u64, a: u64) -> u64 {
-    unimplemented!(
-        "Calculate secret key using prime number {}, public key {}, and private key {}",
-        p,
-        b_pub,
-        a
-    )
+    mod_pow(p, b_pub, a)
 }
