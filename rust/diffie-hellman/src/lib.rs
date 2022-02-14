@@ -1,3 +1,5 @@
+use rand::Rng;
+
 fn primes(limit: usize) -> Vec<usize> {
     let mut primes: Vec<bool> = (0..=limit)
         .map(|num| num == 2 || num & 1 != 0)
@@ -28,7 +30,7 @@ fn primes(limit: usize) -> Vec<usize> {
 
 pub fn private_key(p: u64) -> u64 {
     let mut rng = rand::thread_rng();
-    rng.gen_range(1..p)
+    rng.gen_range(2..p)
 }
 
 pub fn public_key(p: u64, g: u64, a: u64) -> u64 {
