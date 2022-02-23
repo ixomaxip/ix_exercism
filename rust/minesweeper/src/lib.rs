@@ -9,7 +9,14 @@ struct MineField {
 
 impl MineField {
 
-        let v = minefield
+    fn linearize(self, row: usize, col: usize) -> usize {
+        row * self.cols + col
+    }
+
+    fn split(cols: usize) -> impl Fn(usize) -> (usize, usize) {
+        move |i| (i / cols, i % cols)
+    }
+    
     pub fn new(minefield: &[&str]) -> MineField {
         let rows = minefield.len();
         let cols = minefield[0].len();
@@ -33,9 +40,32 @@ impl MineField {
             })
             .collect::<Vec<_>>();
 
-        let field = v
-            .chunks(m)
-            .collect::<Vec<_>>();
+        // let field = v
+        //     .chunks(m)
+        //     .collect::<Vec<_>>();
+
+
+        let window_size = (3usize, 3usize);
+
+        let trimmed_field = (
+            rows - window_size.0 + 1,
+            cols - window_size.1 + 1
+        );
+
+
+        let win_iter = (0..trimmed_field.0 * trimmed_field.1)
+            .map(Self::split(trimmed_field.1))
+            .map(|(row, col)| {
+                let borrowed_field = &field;
+                return (0..window_size.0 * window_size.1)
+                    .map(Self::split(window_size.1))
+                    .map(move |(wrow, wcol)| {
+                        let idx = (wrow + row) * cols + (wcol + col);
+                        (idx, unsafe { *borrowed_field.get_unchecked(idx)})
+                    });
+                });
+
+        win_iter.for_each(|it| println!("{:?}", it.collect::<Vec<(usize, i32)>>()));
 
         MineField {
             rows,
