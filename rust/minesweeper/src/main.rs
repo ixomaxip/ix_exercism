@@ -24,6 +24,7 @@ fn main() {
         " 2*2 ",
         " 111 "
     ];
+    let expected = test_case.iter().map(|&r| r.to_string()).collect::<Vec<_>>();
 
     let cleaned = remove_annotations(test_case);
     let cleaned_strs = cleaned.iter().map(|r| &r[..]).collect::<Vec<_>>();
@@ -31,4 +32,5 @@ fn main() {
     let res = annotate(&cleaned_strs);
 
     println!("{:?}", res);
+    println!("{:?}", expected);
 }
