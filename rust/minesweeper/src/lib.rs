@@ -1,4 +1,4 @@
-use std::cmp::{min, max, Ordering};
+// use std::cmp::{Ordering};
 
 
 struct MineField {
@@ -72,51 +72,6 @@ impl MineField {
             cols,
             field
         }
-    }
-}
-
-fn get_idxs(idx: usize, n: usize, m: usize) -> Vec<usize> {
-    
-    let res: Vec<usize> = vec![];
-    //    <------m------>     
-    // -    -    -    -    -  |
-    // -    ul   u    ur   -  n
-    // -    l   idx   r    -  |
-    // -    dl   d   dr    -  |
-
-
-    // -    -    -    -    -
-
-    let m = m as i32;
-    let n = n as i32;
-
-    let i = idx as i32;
-    let l: i32 = match ((i - 1) / m).cmp(&(i / m)) {
-        Ordering::Equal => i - 1,
-        _ => -1
-    };
-    let r: i32 = match ((i + 1) / m).cmp(&(i / m)) {
-        Ordering::Equal => i + 1,
-        _ => -1
-    };
-
-    let u: i32 = i - m;
-    let ul: i32 = u - 1;
-    let ur: i32 = u + 1;
-
-    let d: i32 = i + m;
-    let dl: i32 = d - 1;
-    let dr: i32 = d + 1;
-
-    res
-}
-
-fn find_mines(i: usize, j: usize, v: &mut Vec<&mut [i32]>) {
-    let mask = vec!((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1));
-
-    for dir in mask {
-        let i_check = i as i32 + dir.0;
-        let j_check = j as i32 + dir.1;
     }
 }
 
