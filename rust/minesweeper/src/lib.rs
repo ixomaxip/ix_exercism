@@ -38,13 +38,18 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
                     let idx = (wrow + row) * padded_cols + (wcol + col);
                     unsafe { *borrowed_field.get_unchecked(idx)}
                 })
-            });
+            })
+        .enumerate().for_each(|(idx, it)| {
+            match -it.sum::<i32>() {
+                0 => field[idx] = " ".to_string(),
+                sum if field[idx] != "*" => field[idx] = sum.to_string(),
+                _ => ()
+            }
+        });
 
-    // win_iter.for_each(|it| println!("{:?}", it.collect::<Vec<(usize, i32)>>()));
-    // win_iter.for_each(|it| println!("{:?}", it.collect::<Vec<i32>>()));
-    win_iter.for_each(|it| println!("{:?}", it.sum::<i32>()));
-    // win_iter.for_each(|it| println!("{:?}", it.map(| (i, val)| sum()));
-
-    println!("{:?}", field);
-    res
+    // for debug 
+    let v = field
+        .chunks(cols)
+        .collect::<Vec<_>>();
+    field
 }
