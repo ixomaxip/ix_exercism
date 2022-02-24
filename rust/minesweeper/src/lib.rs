@@ -18,54 +18,49 @@ impl MineField {
     }
     
     pub fn new(minefield: &[&str]) -> MineField {
-        let rows = minefield.len();
-        let cols = minefield[0].len();
 
-        // let mut field = vec![vec![0i32; cols]; rows];
-        // for (ids, s) in minefield.iter().enumerate() {
-        //     for (idc, ch) in s.chars().enumerate() {
-        //         match ch {
-        //             '*' => field[ids][idc] = -1,
-        //             _ => field[ids][idc] = 0,
-        //         }            
-        //     }
-        // }    
+        let rows = minefield.len() + 2;
+        let cols = minefield[0].len() + 2;
 
-        let field = minefield
-            .concat()
-            .chars()
-            .map(|ch| match ch {
-                '*' => -1,
-                _ => 0
-            })
+        let mut field = vec![0i32; (cols - 2) * (rows - 2)];
+        let mut padded_field = vec![0i32; cols* rows];
+        for (row, s) in minefield.iter().enumerate() {
+            for (col, ch) in s.chars().enumerate() {
+                if ch == '*' {
+                    padded_field[(row + 1) * cols + col + 1] = -1;
+                    field[row * (cols - 2) + col] = -1;
+                }
+            }
+        }
+
+        // for debug 
+        let v = field
+            .chunks(cols - 2)
             .collect::<Vec<_>>();
-
-        // let field = v
-        //     .chunks(m)
-        //     .collect::<Vec<_>>();
 
 
         let window_size = (3usize, 3usize);
-
         let trimmed_field = (
             rows - window_size.0 + 1,
             cols - window_size.1 + 1
         );
 
-
         let win_iter = (0..trimmed_field.0 * trimmed_field.1)
             .map(Self::split(trimmed_field.1))
             .map(|(row, col)| {
-                let borrowed_field = &field;
-                return (0..window_size.0 * window_size.1)
+                let borrowed_field = &padded_field;
+                (0..window_size.0 * window_size.1)
                     .map(Self::split(window_size.1))
                     .map(move |(wrow, wcol)| {
                         let idx = (wrow + row) * cols + (wcol + col);
-                        (idx, unsafe { *borrowed_field.get_unchecked(idx)})
-                    });
+                        unsafe { *borrowed_field.get_unchecked(idx)}
+                    })
                 });
 
-        win_iter.for_each(|it| println!("{:?}", it.collect::<Vec<(usize, i32)>>()));
+        // win_iter.for_each(|it| println!("{:?}", it.collect::<Vec<(usize, i32)>>()));
+        // win_iter.for_each(|it| println!("{:?}", it.collect::<Vec<i32>>()));
+        win_iter.for_each(|it| println!("{:?}", it.sum::<i32>()));
+        // win_iter.for_each(|it| println!("{:?}", it.map(| (i, val)| sum()));
 
         MineField {
             rows,
