@@ -14,9 +14,10 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
     let mut field = vec![" ".to_string(); field_size.0 * field_size.1];
 
     let window_size = (3usize, 3usize);
+    let padding = (window_size.0 / 2, window_size.1 / 2);
     let padded_size = (
-        field_size.0 + window_size.0 - 1,
-        field_size.1 + window_size.1 - 1
+        field_size.0 + padding.0 * 2,
+        field_size.1 + padding.1 * 2
     );
 
     let mut padded_field = vec![0i32; padded_size.0 * padded_size.1];
