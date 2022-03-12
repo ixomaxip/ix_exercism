@@ -52,7 +52,7 @@ fn test_one_letter() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn test_case_insensitivity() {
     let mut hm = HashMap::new();
     hm.insert('a', 2);
@@ -60,14 +60,14 @@ fn test_case_insensitivity() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn test_many_empty_lines() {
     let v = vec![""; 1000];
     assert_eq!(frequency::frequency(&v[..], 4), HashMap::new());
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn test_many_times_same_text() {
     let v = vec!["abc"; 1000];
     let mut hm = HashMap::new();

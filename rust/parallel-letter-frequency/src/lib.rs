@@ -2,17 +2,17 @@ use std::collections::HashMap;
 use std::sync::Mutex;
 
 pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
-    // unimplemented!(
-    //     "Count the frequency of letters in the given input '{:?}'. Ensure that you are using {} to process the input.",
-    //     input,
-    //     match worker_count {
-    //         1 => "1 worker".to_string(),
-    //         _ => format!("{} workers", worker_count),
-    //     }
-    // );
-    // let counters = Mutex<>::new
-
-    let result = HashMap::<char, usize>::new();
-
+    let input = input.join("");
+    let result = worker(&input);
     return result;
+}
+
+fn worker(data: &str) -> HashMap<char, usize> {
+    data
+        .to_lowercase()
+        .chars()
+        .fold(HashMap::new(), |mut map, c| {
+            *map.entry(c).or_insert(0) += 1;
+            map
+        })
 }
