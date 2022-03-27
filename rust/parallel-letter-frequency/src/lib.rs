@@ -1,13 +1,11 @@
-use std::collections::HashMap;
-use std::str::from_utf8;
+use std::{collections::HashMap, str::from_utf8, thread};
 // use std::sync::Mutex;
 
 pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
+    
     let input = input
         .join("")
         .to_lowercase();
-        // .replace(&['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'][..], "")
-        // .replace(&['.', ',', '!', '?', ';', ':', ')', '(', '\'', '\"'][..],"",);
 
     let chunk_len = match input.len() / worker_count {
         0 => input.len() + 1,
@@ -16,37 +14,33 @@ pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
 
     let chunked_data = input
         .as_bytes()
-        .chunks(dbg!(chunk_len))
-        .map(|chunk| {
-            match from_utf8(chunk) {
-                Ok(c) => c,
-                _ => ""
+        .chunks(chunk_len)
+        .map(|chunk| match from_utf8(chunk) {
+            Ok(c) => c.to_string(),
+            _ => "".to_string(),
+        });
 
-            }});
-    // let mut treads = vec![];
-    for (i, chunk) in chunked_data.enumerate() {
-        println!("chunk: {}: {}", i, chunk.len());
-        println!("{:?}", chunk);
+    let mut threads = vec![];
+    for chunk in chunked_data {
+        threads.push(thread::spawn(move || -> HashMap<char, usize> {            
+            let result = chunk
+                .chars()
+                .filter(|c| c.is_alphabetic())
+                .fold(HashMap::new(), |mut hmap, c| {
+                    *hmap.entry(c).or_insert(0) += 1;
+                    hmap
+                });
+            result 
+        }));
     }
 
-    let one_thread_result = input
-        .chars()
-        .filter(|c| c.is_alphabetic())
-        .fold(HashMap::new(), |mut map, c| {
-            *map.entry(c).or_insert(0) += 1;
-            map
-        });
-    return one_thread_result;
-}
+    let mut final_result = HashMap::new();
+    for t in threads {
+        let result = dbg!(t.join().unwrap());
+        for (&char, &count) in result.iter() {
+            *final_result.entry(char).or_insert(0) += count;
+        }
+    }
 
-// fn worker(data: &str) -> HashMap<char, usize> {
-//     data
-//         .to_lowercase()
-//         .replace(&['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'][..], "")
-//         .replace(&['.', ',', '!', '?', ';', ':', ')', '(', '\'', '\"'][..], "")
-//         .chars()
-//         .fold(HashMap::new(), |mut map, c| {
-//             *map.entry(c).or_insert(0) += 1;
-//             map
-//         })
-// }
+    return final_result;
+}
