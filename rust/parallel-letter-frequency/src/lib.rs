@@ -8,10 +8,12 @@ pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
         .to_lowercase();
         // .replace(&['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'][..], "")
         // .replace(&['.', ',', '!', '?', ';', ':', ')', '(', '\'', '\"'][..],"",);
-    let chunk_len = match dbg!(dbg!(input.len()) / (dbg!(worker_count))) {
+
+    let chunk_len = match input.len() / worker_count {
         0 => input.len() + 1,
         l => l + 1,
     };
+
     let chunked_data = input
         .as_bytes()
         .chunks(dbg!(chunk_len))
