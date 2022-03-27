@@ -23,14 +23,7 @@ pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
     let mut threads = vec![];
     for chunk in chunked_data {
         threads.push(thread::spawn(move || -> HashMap<char, usize> {            
-            let result = chunk
-                .chars()
-                .filter(|c| c.is_alphabetic())
-                .fold(HashMap::new(), |mut hmap, c| {
-                    *hmap.entry(c).or_insert(0) += 1;
-                    hmap
-                });
-            result 
+            worker(&chunk)
         }));
     }
 
@@ -43,4 +36,15 @@ pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
     }
 
     return final_result;
+}
+
+fn worker(text: &str) -> HashMap<char, usize> {
+    let result = text
+        .chars()
+        .filter(|c| c.is_alphabetic())
+        .fold(HashMap::new(), |mut hmap, c| {
+            *hmap.entry(c).or_insert(0) += 1;
+            hmap
+        });
+    return result
 }
