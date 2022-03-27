@@ -3,11 +3,11 @@ use std::str::from_utf8;
 // use std::sync::Mutex;
 
 pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
-    let input = input.join("")
-        .to_lowercase()
-        .replace(&['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'][..], "")
-        .replace(&['.', ',', '!', '?', ';', ':', ')', '(', '\'', '\"'][..], "");
-
+    let input = input
+        .join("")
+        .to_lowercase();
+        // .replace(&['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'][..], "")
+        // .replace(&['.', ',', '!', '?', ';', ':', ')', '(', '\'', '\"'][..],"",);
     let chunk_len = match dbg!(dbg!(input.len()) / (dbg!(worker_count))) {
         0 => input.len() + 1,
         l => l + 1,
@@ -29,6 +29,7 @@ pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
 
     let one_thread_result = input
         .chars()
+        .filter(|c| c.is_alphabetic())
         .fold(HashMap::new(), |mut map, c| {
             *map.entry(c).or_insert(0) += 1;
             map
