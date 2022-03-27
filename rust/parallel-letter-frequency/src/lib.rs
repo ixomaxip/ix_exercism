@@ -2,10 +2,9 @@ use std::{collections::HashMap, str::from_utf8, thread};
 // use std::sync::Mutex;
 
 pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
-    
+
     let input = input
-        .join("")
-        .to_lowercase();
+        .join("");
 
     let chunk_len = match input.len() / worker_count {
         0 => input.len() + 1,
@@ -22,14 +21,14 @@ pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
 
     let mut threads = vec![];
     for chunk in chunked_data {
-        threads.push(thread::spawn(move || -> HashMap<char, usize> {            
+        threads.push(thread::spawn(move || -> HashMap<char, usize> {
             worker(&chunk)
         }));
     }
 
     let mut final_result = HashMap::new();
     for t in threads {
-        let result = dbg!(t.join().unwrap());
+        let result = t.join().unwrap();
         for (&char, &count) in result.iter() {
             *final_result.entry(char).or_insert(0) += count;
         }
@@ -38,8 +37,9 @@ pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
     return final_result;
 }
 
-fn worker(text: &str) -> HashMap<char, usize> {
+fn worker(text: &String) -> HashMap<char, usize> {
     let result = text
+        .to_lowercase()
         .chars()
         .filter(|c| c.is_alphabetic())
         .fold(HashMap::new(), |mut hmap, c| {
