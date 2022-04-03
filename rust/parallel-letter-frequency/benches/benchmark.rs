@@ -19,25 +19,25 @@ fn bench_tiny_sequential(b: &mut Bencher) {
     b.iter(|| frequency(tiny));
 }
 
-// #[bench]
+#[bench]
 fn bench_small_parallel(b: &mut Bencher) {
     let texts = all_texts(1);
     b.iter(|| parallel_letter_frequency::frequency(&texts, NUM_WORKERS));
 }
 
-// #[bench]
+#[bench]
 fn bench_small_sequential(b: &mut Bencher) {
     let texts = all_texts(1);
     b.iter(|| frequency(&texts));
 }
 
-// #[bench]
+#[bench]
 fn bench_large_parallel(b: &mut Bencher) {
     let texts = all_texts(30);
     b.iter(|| parallel_letter_frequency::frequency(&texts, NUM_WORKERS));
 }
 
-// #[bench]
+#[bench]
 fn bench_large_sequential(b: &mut Bencher) {
     let texts = all_texts(30);
     b.iter(|| frequency(&texts));
