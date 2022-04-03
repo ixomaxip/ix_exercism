@@ -1,5 +1,7 @@
-use std::{collections::HashMap, str::from_utf8, thread};
-// use std::sync::Mutex;
+use std::{collections::HashMap,
+    str::from_utf8,
+    thread
+};
 
 pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
 
@@ -38,13 +40,11 @@ pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
 }
 
 fn worker(text: &String) -> HashMap<char, usize> {
-    let result = text
-        .to_lowercase()
-        .chars()
-        .filter(|c| c.is_alphabetic())
-        .fold(HashMap::new(), |mut hmap, c| {
-            *hmap.entry(c).or_insert(0) += 1;
-            hmap
-        });
-    return result
+    let mut map = HashMap::new();
+    for chr in text.chars().filter(|c| c.is_alphabetic()) {
+        if let Some(c) = chr.to_lowercase().next() {
+            (*map.entry(c).or_insert(0)) += 1;
+        }
+    }
+    map
 }
