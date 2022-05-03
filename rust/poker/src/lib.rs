@@ -1,5 +1,6 @@
+use std::cmp::Ordering;
 
-#[derive(Debug)]
+#[derive(Debug, Eq, Clone, Copy)]
 enum Value {
     ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING
 }
@@ -22,6 +23,24 @@ impl Value {
             "K" => Value::KING,
             _ => unreachable!("Invalid card value")
         }
+    }
+}
+
+impl Ord for Value {
+    fn cmp(&self, other: &Self) -> Ordering {
+        (*self as i32).cmp(&(*other as i32))
+    }
+}
+
+impl PartialOrd for Value {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some((*self as i32).cmp(&(*other as i32)))
+    }
+}
+
+impl PartialEq for Value {
+    fn eq(&self, other: &Self) -> bool {
+        *self as i32 == *other as i32
     }
 }
 
