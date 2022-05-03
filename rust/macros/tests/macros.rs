@@ -63,25 +63,23 @@ fn test_nested() {
     );
 }
 
-// mod test {
-//     #[test]
-//     #[ignore]
-//     fn type_not_in_scope() {
-//         use macros::hashmap;
+mod test {
+    #[test]
+    fn type_not_in_scope() {
+        use macros::hashmap;
 
-//         let _empty: ::std::collections::HashMap<(), ()> = hashmap!();
-//         let _without_comma = hashmap!(23=> 623, 34 => 21);
-//         let _with_trailing = hashmap!(23 => 623, 34 => 21,);
-//     }
+        let _empty: ::std::collections::HashMap<(), ()> = hashmap!();
+        let _without_comma = hashmap!(23=> 623, 34 => 21);
+        let _with_trailing = hashmap!(23 => 623, 34 => 21,);
+    }
 
-//     #[test]
-//     #[ignore]
-//     fn test_macro_out_of_scope() {
-//         let _empty: ::std::collections::HashMap<(), ()> = macros::hashmap!();
-//         let _without_comma = macros::hashmap!(23=> 623, 34 => 21);
-//         let _with_trailing = macros::hashmap!(23 => 623, 34 => 21,);
-//     }
-// }
+    #[test]
+    fn test_macro_out_of_scope() {
+        let _empty: ::std::collections::HashMap<(), ()> = macros::hashmap!();
+        let _without_comma = macros::hashmap!(23=> 623, 34 => 21);
+        let _with_trailing = macros::hashmap!(23 => 623, 34 => 21,);
+    }
+}
 
 // #[test]
 // #[ignore]
