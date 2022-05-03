@@ -24,7 +24,6 @@ fn test_no_trailing_comma() {
 }
 
 #[test]
-#[ignore]
 fn test_trailing_comma() {
     let mut expected = HashMap::new();
     expected.insert('h', 89);
@@ -42,28 +41,27 @@ fn test_trailing_comma() {
     );
 }
 
-// #[test]
-// #[ignore]
-// fn test_nested() {
-//     let mut expected = HashMap::new();
-//     expected.insert("non-empty", {
-//         let mut subhashmap = HashMap::new();
-//         subhashmap.insert(23, 623);
-//         subhashmap.insert(34, 21);
-//         subhashmap
-//     });
-//     expected.insert("empty", HashMap::new());
-//     assert_eq!(
-//         hashmap!(
-//             "non-empty" => hashmap!(
-//                 23 => 623,
-//                 34 => 21
-//             ),
-//             "empty" => hashmap!()
-//         ),
-//         expected
-//     );
-// }
+#[test]
+fn test_nested() {
+    let mut expected = HashMap::new();
+    expected.insert("non-empty", {
+        let mut subhashmap = HashMap::new();
+        subhashmap.insert(23, 623);
+        subhashmap.insert(34, 21);
+        subhashmap
+    });
+    expected.insert("empty", HashMap::new());
+    assert_eq!(
+        hashmap!(
+            "non-empty" => hashmap!(
+                23 => 623,
+                34 => 21
+            ),
+            "empty" => hashmap!()
+        ),
+        expected
+    );
+}
 
 // mod test {
 //     #[test]
