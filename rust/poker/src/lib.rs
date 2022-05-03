@@ -49,6 +49,18 @@ enum Suit {
     DIAMONDS, CLUBS, HEARTS, SPADES
 }
 
+impl Suit {
+    fn new(suit: &str) -> Suit {
+        match suit {
+            "D" => Suit::DIAMONDS,
+            "C" => Suit::CLUBS,
+            "H" => Suit::HEARTS,
+            "S" => Suit::SPADES,
+            _ => unreachable!("Invalid suit")
+        }
+    }
+}
+
 #[derive(Debug)]
 struct Card {
     value: Value,
