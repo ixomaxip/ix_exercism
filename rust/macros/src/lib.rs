@@ -5,7 +5,7 @@ macro_rules! hashmap {
             HashMap::new()
         }
     };
-    ( $($k:expr => $v:expr), * ) => {
+    ( $($k:expr => $v:expr),* $(,)?) => {
         {
             let mut h_map = HashMap::new();
             $(

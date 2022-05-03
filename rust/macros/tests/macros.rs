@@ -23,24 +23,24 @@ fn test_no_trailing_comma() {
     assert_eq!(hashmap!(1 => "one", 2 => "two"), expected);
 }
 
-// #[test]
-// #[ignore]
-// fn test_trailing_comma() {
-//     let mut expected = HashMap::new();
-//     expected.insert('h', 89);
-//     expected.insert('a', 1);
-//     expected.insert('s', 19);
-//     expected.insert('h', 8);
-//     assert_eq!(
-//         hashmap!(
-//             'h' => 89,
-//             'a' => 1,
-//             's' => 19,
-//             'h' => 8,
-//         ),
-//         expected
-//     );
-// }
+#[test]
+#[ignore]
+fn test_trailing_comma() {
+    let mut expected = HashMap::new();
+    expected.insert('h', 89);
+    expected.insert('a', 1);
+    expected.insert('s', 19);
+    expected.insert('h', 8);
+    assert_eq!(
+        hashmap!(
+            'h' => 89,
+            'a' => 1,
+            's' => 19,
+            'h' => 8,
+        ),
+        expected
+    );
+}
 
 // #[test]
 // #[ignore]
