@@ -67,10 +67,28 @@ impl PartialEq for Suit {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Eq, Clone, Copy)]
 struct Card {
     value: Value,
     suit: Suit,
+}
+
+impl Ord for Card {
+    fn cmp(&self, other: &Card) -> Ordering {
+        self.value.cmp(&other.value )
+    }
+}
+
+impl PartialOrd for Card {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.value.cmp(&other.value))
+    }
+}
+
+impl PartialEq for Card {
+    fn eq(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
 }
 
 #[derive(Debug)]
