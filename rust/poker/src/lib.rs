@@ -44,7 +44,7 @@ impl PartialEq for Value {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Eq, Clone, Copy)]
 enum Suit {
     DIAMONDS, CLUBS, HEARTS, SPADES
 }
@@ -58,6 +58,12 @@ impl Suit {
             "S" => Suit::SPADES,
             _ => unreachable!("Invalid suit")
         }
+    }
+}
+
+impl PartialEq for Suit {
+    fn eq(&self, other: &Self) -> bool {
+        *self as i32 == *other as i32
     }
 }
 
