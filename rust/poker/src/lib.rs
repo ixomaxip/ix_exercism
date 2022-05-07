@@ -21,7 +21,7 @@ impl Value {
             "J" => Value::JACK,
             "Q" => Value::QUEEN,
             "K" => Value::KING,
-            _ => unreachable!("Invalid card value")
+            _ => unreachable!("{}", format!("Invalid card value: {}", value))
         }
     }
 }
@@ -56,7 +56,7 @@ impl Suit {
             "C" => Suit::CLUBS,
             "H" => Suit::HEARTS,
             "S" => Suit::SPADES,
-            _ => unreachable!("Invalid suit")
+            _ => unreachable!("{}", format!("Invalid suit: {}", suit))
         }
     }
 }
