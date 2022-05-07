@@ -132,5 +132,14 @@ impl PokerHand {
 /// Note the type signature: this function should return _the same_ reference to
 /// the winning hand(s) as were passed in, not reconstructed strings which happen to be equal.
 pub fn winning_hands<'a>(hands: &[&'a str]) -> Vec<&'a str> {
-    unimplemented!("Out of {:?}, which hand wins?", hands)
+    let result_hands: Vec<&str> = vec![];
+
+    let t_hands = hands
+        .iter()
+        .map(|h| PokerHand::from_string(h))
+        .collect::<Vec<_>>();
+
+    println!("{:?}", t_hands);
+
+    result_hands
 }
