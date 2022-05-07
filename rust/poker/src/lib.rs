@@ -73,9 +73,22 @@ struct Card {
     suit: Suit,
 }
 
+impl Card {
+    fn from_str(card: &str) -> Self {
+        let suit = card.chars().last().unwrap().to_string();
+        let val = card.chars()
+            .filter(|c| c.is_numeric())
+            .collect::<String>();
+        Card {
+            value: Value::new(&val),
+            suit: Suit::new(&suit)
+        }
+    }
+}
+
 impl Ord for Card {
     fn cmp(&self, other: &Card) -> Ordering {
-        self.value.cmp(&other.value )
+        self.value.cmp(&other.value)
     }
 }
 
