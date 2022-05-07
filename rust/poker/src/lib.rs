@@ -109,6 +109,24 @@ struct PokerHand {
     cards: [Card; 5]
 }
 
+impl PokerHand {
+    fn from_string(hand: &str) -> Self {
+        let cards = hand
+            .split(" ")
+            .map(|c| Card::from_str(c))
+            .collect::<Vec<_>>();
+
+        PokerHand {
+            cards: [
+                cards[0],
+                cards[1],
+                cards[2],
+                cards[3],
+                cards[4]
+            ]
+        }
+    }
+}
 /// Given a list of poker hands, return a list of those hands which win.
 ///
 /// Note the type signature: this function should return _the same_ reference to
