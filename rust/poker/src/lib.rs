@@ -76,9 +76,9 @@ struct Card {
 impl Card {
     fn from_str(card: &str) -> Self {
         let suit = card.chars().last().unwrap().to_string();
-        let val = card.chars()
-            .filter(|c| c.is_numeric())
-            .collect::<String>();
+        let mut chars = card.chars();
+        chars.next_back();
+        let val = chars.as_str();
         Card {
             value: Value::new(&val),
             suit: Suit::new(&suit)
