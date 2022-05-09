@@ -174,10 +174,21 @@ impl PokerHand {
             .split(" ")
             .map(|c| Card::from_str(c))
             .collect::<Vec<_>>();
-        cards.sort();
+        cards.sort_by(|a, b| a.cmp(b));
         PokerHand {
             cards: [cards[0], cards[1], cards[2], cards[3], cards[4]],
         }
+    }
+}
+
+impl fmt::Display for PokerHand {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let cards = self.cards
+            .iter()
+            .map(|c| format!("{:?} - {:?}", c.value, c.suit))
+            .collect::<Vec<_>>();
+
+        write!(f, "{:?}", cards.join(" | "))
     }
 }
 /// Given a list of poker hands, return a list of those hands which win.
@@ -192,11 +203,12 @@ pub fn winning_hands<'a>(hands: &[&'a str]) -> Vec<&'a str> {
         .map(|h| PokerHand::from_string(h))
         .collect::<Vec<_>>();
 
-    println!("{:?}", t_hands);
+    for h in t_hands {
+        println!("{:}", h);
+    }
 
     let mut hands_vec = HandName::into_enum_iter().collect::<Vec<_>>();
-    hands_vec.sort();
-    println!("{:?}", hands_vec.iter().max().unwrap());
+    println!("{:}", hands_vec.iter().max().unwrap());
 
     result_hands
 }
