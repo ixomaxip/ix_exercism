@@ -5,37 +5,37 @@ use std::fmt;
 
 #[derive(Debug, Eq, Clone, Copy)]
 enum Value {
-    ACE,
-    TWO,
-    THREE,
-    FOUR,
-    FIVE,
-    SIX,
-    SEVEN,
-    EIGHT,
-    NINE,
-    TEN,
-    JACK,
-    QUEEN,
-    KING,
+    Ace,
+    Two,
+    Three,
+    Four,
+    Five,
+    Six,
+    Seven,
+    Eight,
+    Nine,
+    Ten,
+    Jack,
+    Queen,
+    King,
 }
 
 impl Value {
     fn new(value: &str) -> Value {
         match value {
-            "A" => Value::ACE,
-            "2" => Value::TWO,
-            "3" => Value::THREE,
-            "4" => Value::FOUR,
-            "5" => Value::FIVE,
-            "6" => Value::SIX,
-            "7" => Value::SEVEN,
-            "8" => Value::EIGHT,
-            "9" => Value::NINE,
-            "10" => Value::TEN,
-            "J" => Value::JACK,
-            "Q" => Value::QUEEN,
-            "K" => Value::KING,
+            "A" => Value::Ace,
+            "2" => Value::Two,
+            "3" => Value::Three,
+            "4" => Value::Four,
+            "5" => Value::Five,
+            "6" => Value::Six,
+            "7" => Value::Seven,
+            "8" => Value::Eight,
+            "9" => Value::Nine,
+            "10" => Value::Ten,
+            "J" => Value::Jack,
+            "Q" => Value::Queen,
+            "K" => Value::King,
             _ => unreachable!("{}", format!("Invalid card value: {}", value)),
         }
     }
@@ -61,19 +61,19 @@ impl PartialEq for Value {
 
 #[derive(Debug, Eq, Clone, Copy)]
 enum Suit {
-    DIAMONDS,
-    CLUBS,
-    HEARTS,
-    SPADES,
+    Diamonds,
+    Clubs,
+    Hearts,
+    Spades,
 }
 
 impl Suit {
     fn new(suit: &str) -> Suit {
         match suit {
-            "D" => Suit::DIAMONDS,
-            "C" => Suit::CLUBS,
-            "H" => Suit::HEARTS,
-            "S" => Suit::SPADES,
+            "D" => Suit::Diamonds,
+            "C" => Suit::Clubs,
+            "H" => Suit::Hearts,
+            "S" => Suit::Spades,
             _ => unreachable!("{}", format!("Invalid suit: {}", suit)),
         }
     }
