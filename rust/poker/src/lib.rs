@@ -192,5 +192,9 @@ pub fn winning_hands<'a>(hands: &[&'a str]) -> Vec<&'a str> {
 
     println!("{:?}", t_hands);
 
+    let mut hands_vec = HandName::into_enum_iter().collect::<Vec<_>>();
+    hands_vec.sort();
+    println!("{:?}", hands_vec.iter().max().unwrap());
+
     result_hands
 }
