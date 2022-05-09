@@ -2,7 +2,19 @@ use std::cmp::Ordering;
 
 #[derive(Debug, Eq, Clone, Copy)]
 enum Value {
-    ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING
+    ACE,
+    TWO,
+    THREE,
+    FOUR,
+    FIVE,
+    SIX,
+    SEVEN,
+    EIGHT,
+    NINE,
+    TEN,
+    JACK,
+    QUEEN,
+    KING,
 }
 
 impl Value {
@@ -21,7 +33,7 @@ impl Value {
             "J" => Value::JACK,
             "Q" => Value::QUEEN,
             "K" => Value::KING,
-            _ => unreachable!("{}", format!("Invalid card value: {}", value))
+            _ => unreachable!("{}", format!("Invalid card value: {}", value)),
         }
     }
 }
@@ -46,7 +58,10 @@ impl PartialEq for Value {
 
 #[derive(Debug, Eq, Clone, Copy)]
 enum Suit {
-    DIAMONDS, CLUBS, HEARTS, SPADES
+    DIAMONDS,
+    CLUBS,
+    HEARTS,
+    SPADES,
 }
 
 impl Suit {
@@ -56,7 +71,7 @@ impl Suit {
             "C" => Suit::CLUBS,
             "H" => Suit::HEARTS,
             "S" => Suit::SPADES,
-            _ => unreachable!("{}", format!("Invalid suit: {}", suit))
+            _ => unreachable!("{}", format!("Invalid suit: {}", suit)),
         }
     }
 }
@@ -81,7 +96,7 @@ impl Card {
         let val = chars.as_str();
         Card {
             value: Value::new(&val),
-            suit: Suit::new(&suit)
+            suit: Suit::new(&suit),
         }
     }
 }
@@ -106,7 +121,7 @@ impl PartialEq for Card {
 
 #[derive(Debug)]
 struct PokerHand {
-    cards: [Card; 5]
+    cards: [Card; 5],
 }
 
 impl PokerHand {
@@ -117,13 +132,7 @@ impl PokerHand {
             .collect::<Vec<_>>();
         cards.sort();
         PokerHand {
-            cards: [
-                cards[0],
-                cards[1],
-                cards[2],
-                cards[3],
-                cards[4]
-            ]
+            cards: [cards[0], cards[1], cards[2], cards[3], cards[4]],
         }
     }
 }
