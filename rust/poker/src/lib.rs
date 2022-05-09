@@ -1,4 +1,7 @@
 use std::cmp::Ordering;
+use int_enum::IntEnum;
+use enum_iterator::IntoEnumIterator;
+use std::fmt;
 
 #[derive(Debug, Eq, Clone, Copy)]
 enum Value {
@@ -116,6 +119,45 @@ impl PartialOrd for Card {
 impl PartialEq for Card {
     fn eq(&self, other: &Self) -> bool {
         self.value == other.value
+    }
+}
+
+#[repr(usize)]
+#[derive(Debug, Eq, Clone, Copy, IntoEnumIterator, IntEnum)]
+enum HandName {
+    HighCard = 1,
+    OnePair = 2,
+    TwoPair = 3,
+    ThreeKind = 4,
+    Straight = 5,
+    Flush = 6,
+    FullHouse = 7,
+    FourKind = 8,
+    StraightFlush = 9,
+    FiveKind = 10,
+}
+
+impl fmt::Display for HandName {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        fmt::Debug::fmt(self, f)
+    }
+}
+
+impl Ord for HandName {
+    fn cmp(&self, other: &Self) -> Ordering {
+        (self.int_value()).cmp(&(other.int_value()))
+    }
+}
+
+impl PartialOrd for HandName {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some((self.int_value()).cmp(&(other.int_value())))
+    }
+}
+
+impl PartialEq for HandName {
+    fn eq(&self, other: &Self) -> bool {
+        self.int_value() == other.int_value()
     }
 }
 
