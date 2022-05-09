@@ -3,21 +3,22 @@ use int_enum::IntEnum;
 use enum_iterator::IntoEnumIterator;
 use std::fmt;
 
-#[derive(Debug, Eq, Clone, Copy)]
+#[repr(usize)]
+#[derive(Debug, Eq, Clone, Copy, IntEnum)]
 enum Value {
-    Ace,
-    Two,
-    Three,
-    Four,
-    Five,
-    Six,
-    Seven,
-    Eight,
-    Nine,
-    Ten,
-    Jack,
-    Queen,
-    King,
+    Ace = 1,
+    Two = 2,
+    Three = 3,
+    Four = 4,
+    Five = 5,
+    Six = 6,
+    Seven = 7,
+    Eight = 8,
+    Nine = 9,
+    Ten = 10,
+    Jack = 11,
+    Queen = 12,
+    King = 13,
 }
 
 impl Value {
@@ -43,13 +44,13 @@ impl Value {
 
 impl Ord for Value {
     fn cmp(&self, other: &Self) -> Ordering {
-        (*self as i32).cmp(&(*other as i32))
+        (self.int_value()).cmp(&(other.int_value()))
     }
 }
 
 impl PartialOrd for Value {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        Some((*self as i32).cmp(&(*other as i32)))
+        Some((self.int_value()).cmp(&(other.int_value())))
     }
 }
 
