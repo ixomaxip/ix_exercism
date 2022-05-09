@@ -60,12 +60,13 @@ impl PartialEq for Value {
     }
 }
 
-#[derive(Debug, Eq, Clone, Copy)]
+#[repr(usize)]
+#[derive(Debug, Eq, Clone, Copy, IntEnum)]
 enum Suit {
-    Diamonds,
-    Clubs,
-    Hearts,
-    Spades,
+    Diamonds = 1,
+    Clubs = 2,
+    Hearts = 3,
+    Spades = 4,
 }
 
 impl Suit {
