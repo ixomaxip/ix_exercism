@@ -111,11 +111,11 @@ struct PokerHand {
 
 impl PokerHand {
     fn from_string(hand: &str) -> Self {
-        let cards = hand
+        let mut cards = hand
             .split(" ")
             .map(|c| Card::from_str(c))
             .collect::<Vec<_>>();
-
+        cards.sort();
         PokerHand {
             cards: [
                 cards[0],
