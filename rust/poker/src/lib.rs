@@ -126,7 +126,8 @@ impl PartialEq for Card {
 
 #[repr(usize)]
 #[derive(Debug, Eq, Clone, Copy, IntoEnumIterator, IntEnum)]
-enum HandName {
+enum Rank {
+    NA = 0,
     HighCard = 1,
     OnePair = 2,
     TwoPair = 3,
@@ -139,25 +140,25 @@ enum HandName {
     FiveKind = 10,
 }
 
-impl fmt::Display for HandName {
+impl fmt::Display for Rank {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         fmt::Debug::fmt(self, f)
     }
 }
 
-impl Ord for HandName {
+impl Ord for Rank {
     fn cmp(&self, other: &Self) -> Ordering {
         (self.int_value()).cmp(&(other.int_value()))
     }
 }
 
-impl PartialOrd for HandName {
+impl PartialOrd for Rank {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some((self.int_value()).cmp(&(other.int_value())))
     }
 }
 
-impl PartialEq for HandName {
+impl PartialEq for Rank {
     fn eq(&self, other: &Self) -> bool {
         self.int_value() == other.int_value()
     }
@@ -166,6 +167,7 @@ impl PartialEq for HandName {
 #[derive(Debug)]
 struct PokerHand {
     cards: [Card; 5],
+    rank: Rank,
 }
 
 impl PokerHand {
@@ -177,6 +179,7 @@ impl PokerHand {
         cards.sort_by(|a, b| a.cmp(b));
         PokerHand {
             cards: [cards[0], cards[1], cards[2], cards[3], cards[4]],
+            rank: Rank::NA
         }
     }
 }
@@ -207,7 +210,7 @@ pub fn winning_hands<'a>(hands: &[&'a str]) -> Vec<&'a str> {
         println!("{:}", h);
     }
 
-    let mut hands_vec = HandName::into_enum_iter().collect::<Vec<_>>();
+    let mut hands_vec = Rank::into_enum_iter().collect::<Vec<_>>();
     println!("{:}", hands_vec.iter().max().unwrap());
 
     result_hands
