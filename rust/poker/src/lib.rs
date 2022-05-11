@@ -1,10 +1,13 @@
-use std::cmp::Ordering;
+use std::{
+    collections::HashMap,
+    cmp::Ordering,
+    fmt
+};
 use int_enum::IntEnum;
 use enum_iterator::IntoEnumIterator;
-use std::fmt;
 
 #[repr(usize)]
-#[derive(Debug, Eq, Clone, Copy, IntEnum)]
+#[derive(Debug, Eq, Clone, Copy, IntEnum, Hash)]
 enum Value {
     Ace = 1,
     Two = 2,
@@ -177,10 +180,25 @@ impl PokerHand {
             .map(|c| Card::from_str(c))
             .collect::<Vec<_>>();
         cards.sort_by(|a, b| a.cmp(b));
+        let cards = [cards[0], cards[1], cards[2], cards[3], cards[4]];
         PokerHand {
-            cards: [cards[0], cards[1], cards[2], cards[3], cards[4]],
-            rank: Rank::NA
+            cards: cards,
+            rank: Self::get_rank(&cards),
         }
+    }
+
+    fn get_rank(cards: &[Card]) -> Rank {
+
+        let counters: HashMap<Value, usize> = cards
+            .iter()
+            .fold(HashMap::new(), |mut map, c| {
+                *map.entry(c.value).or_insert(0) += 1;
+                map
+            });
+            println!("{:?}", counters);
+
+
+            Rank::NA
     }
 }
 
@@ -207,7 +225,7 @@ pub fn winning_hands<'a>(hands: &[&'a str]) -> Vec<&'a str> {
         .collect::<Vec<_>>();
 
     for h in t_hands {
-        println!("{:}", h);
+        println!("{:}", PokerHand::get_rank(&h.cards));
     }
 
     let mut hands_vec = Rank::into_enum_iter().collect::<Vec<_>>();
