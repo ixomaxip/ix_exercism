@@ -197,8 +197,11 @@ impl PokerHand {
             });
             println!("{:?}", counters);
 
-
             Rank::NA
+    }
+
+    fn find_value(map: HashMap<Value, usize>, value: usize) -> usize {
+        map.values().fold(0, |acc, &v| if v == value {acc + 1 } else { acc })
     }
 }
 
