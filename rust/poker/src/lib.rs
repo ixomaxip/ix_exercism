@@ -203,6 +203,26 @@ impl PokerHand {
     fn find_value(map: HashMap<Value, usize>, value: usize) -> usize {
         map.values().fold(0, |acc, &v| if v == value {acc + 1 } else { acc })
     }
+
+    fn is_FiveKind(&self, counters: HashMap<Value, usize>) -> bool {
+        Self::find_value(counters, 5) == 1
+    }
+
+    fn is_FourKind(&self, counters: HashMap<Value, usize>) -> bool {
+        Self::find_value(counters, 4) == 1
+    }
+
+    fn is_ThreeKind(&self, counters: HashMap<Value, usize>) -> bool {
+        Self::find_value(counters, 3) == 1
+    }
+
+    fn is_TwoPair(&self, counters: HashMap<Value, usize>) -> bool {
+        Self::find_value(counters, 2) == 2
+    }
+
+    fn is_OnePair(&self, counters: HashMap<Value, usize>) -> bool {
+        Self::find_value(counters, 2) == 1
+    }
 }
 
 impl fmt::Display for PokerHand {
