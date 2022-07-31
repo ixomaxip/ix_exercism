@@ -75,14 +75,14 @@ fn test_asking_gibberish() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 /// question with no letters
 fn test_question_with_no_letters() {
     process_response_case("4?", "Sure.");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 /// no letters
 fn test_no_letters() {
     process_response_case("1, 2, 3", "Whatever.");
@@ -124,7 +124,7 @@ fn test_shouting() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 /// non-letters with question
 fn test_nonletters_with_question() {
     process_response_case(":) ?", "Sure.");
