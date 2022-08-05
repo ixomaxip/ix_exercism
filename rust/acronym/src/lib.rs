@@ -1,26 +1,14 @@
 pub fn abbreviate(phrase: &str) -> String {
 
-    let res = phrase.replace(|c: char| !c.is_alphanumeric() && c != '\'', " ")
-        .split(" ").filter(|&x| !x.is_empty())
-        .map(|s| {
-            let mut chars = s.chars(); 
-            if chars.all(|c| c.is_uppercase()) {
-                s.to_lowercase().to_string()
-            } else {
-                s.to_string()
-            }
-        })
-        .map(|s| {
-            let mut chars = s.chars();
-            match chars.next() {
-                None => String::new(),
-                Some(c) => c.to_uppercase().chain(chars).collect()
-            }
-
-        })
-        .collect::<String>()
-        .chars()
-        .filter(|c| c.is_uppercase())
-        .collect::<String>();
-    res
+    phrase
+    .split(|c: char| c.is_ascii_whitespace() || c == '_' || c == '-')
+    .flat_map(|word| {
+        word.chars().take(1).chain(
+            word.chars()
+                .skip_while(|c| c.is_ascii_uppercase())
+                .filter(|c| c.is_ascii_uppercase()),
+        )
+    })
+    .collect::<String>()
+    .to_ascii_uppercase()
 }
