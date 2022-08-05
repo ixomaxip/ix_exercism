@@ -1,6 +1,6 @@
 pub fn abbreviate(phrase: &str) -> String {
 
-    let res = phrase.replace(|c :char| !c.is_alphanumeric() && c != '\'', " ")
+    let res = phrase.replace(|c: char| !c.is_alphanumeric() && c != '\'', " ")
         .split(" ").filter(|&x| !x.is_empty())
         .map(|s| {
             let mut chars = s.chars(); 
@@ -22,12 +22,5 @@ pub fn abbreviate(phrase: &str) -> String {
         .chars()
         .filter(|c| c.is_uppercase())
         .collect::<String>();
-        // .collect::<Vec<_>>();
-        // .map(|s| {
-            // let mut 
-        // });
-
-
-    dbg!(res)
-    // String::new()
+    res
 }
