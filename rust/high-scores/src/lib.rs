@@ -17,17 +17,11 @@ impl<'a> HighScores<'a> {
     }
 
     pub fn latest(&self) -> Option<u32> {
-        match self.scores.last() {
-            Some(&x) => Some(x),
-            _ => Option::None
-        }
+        self.scores.last().copied()
     }
 
     pub fn personal_best(&self) -> Option<u32> {
-        match self.scores.iter().max() {
-            Some(&x) => Some(x),
-            _ => Option::None
-        }
+        self.scores.iter().max().copied()
     }
 
     pub fn personal_top_three(&self) -> Vec<u32> {
