@@ -1,27 +1,45 @@
-#[derive(Debug)]
-pub struct HighScores;
+use std::collections::BinaryHeap;
+use std::cmp::Reverse;
 
-impl HighScores {
-    pub fn new(scores: &[u32]) -> Self {
-        unimplemented!(
-            "Construct a HighScores struct, given the scores: {:?}",
-            scores
-        )
+#[derive(Debug)]
+pub struct HighScores<'a> {
+    scores: &'a [u32],
+    top_k: usize
+}
+
+impl<'a> HighScores<'a> {
+    pub fn new(scores: &'a [u32]) -> Self {
+        HighScores {scores: scores, top_k: 3}
     }
 
     pub fn scores(&self) -> &[u32] {
-        unimplemented!("Return all the scores as a slice")
+        &self.scores
     }
 
     pub fn latest(&self) -> Option<u32> {
-        unimplemented!("Return the latest (last) score")
+        match self.scores.last() {
+            Some(&x) => Some(x),
+            _ => Option::None
+        }
     }
 
     pub fn personal_best(&self) -> Option<u32> {
-        unimplemented!("Return the highest score")
+        match self.scores.iter().max() {
+            Some(&x) => Some(x),
+            _ => Option::None
+        }
     }
 
     pub fn personal_top_three(&self) -> Vec<u32> {
-        unimplemented!("Return 3 highest scores")
+        let mut result: Vec<u32> = self.scores().iter()
+            .fold(BinaryHeap::new(), |mut heap, &x| {
+                heap.push(Reverse(x));
+                if heap.len() > self.top_k {
+                    heap.pop();
+                }
+                heap
+            }).iter().map(|rev| rev.0).collect();
+        result.sort_by_key(|x| Reverse(*x));
+        result
     }
 }
