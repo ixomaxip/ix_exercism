@@ -196,15 +196,15 @@ impl PokerHand {
                 map
             });
             println!("{:?}", counters);
-            if Self::is_FiveKind(&counters) {
+            if Self::is_five_kind(&counters) {
                 Rank::FiveKind
-            } else if Self::is_FourKind(&counters) {
+            } else if Self::is_four_kind(&counters) {
                 Rank::FourKind
-            } else if Self::is_ThreeKind(&counters) {
+            } else if Self::is_three_kind(&counters) {
                 Rank::ThreeKind
-            } else if Self::is_TwoPair(&counters) {
+            } else if Self::is_two_pair(&counters) {
                 Rank::TwoPair
-            } else if Self::is_OnePair(&counters) {
+            } else if Self::is_one_pair(&counters) {
                 Rank::OnePair
             } else {
                 Rank::HighCard
@@ -216,23 +216,23 @@ impl PokerHand {
         map.values().fold(0, |acc, &v| if v == value {acc + 1 } else { acc })
     }
 
-    fn is_FiveKind(counters: &HashMap<Value, usize>) -> bool {
+    fn is_five_kind(counters: &HashMap<Value, usize>) -> bool {
         Self::find_value(counters, 5) == 1
     }
 
-    fn is_FourKind(counters: &HashMap<Value, usize>) -> bool {
+    fn is_four_kind(counters: &HashMap<Value, usize>) -> bool {
         Self::find_value(counters, 4) == 1
     }
 
-    fn is_ThreeKind(counters: &HashMap<Value, usize>) -> bool {
+    fn is_three_kind(counters: &HashMap<Value, usize>) -> bool {
         Self::find_value(counters, 3) == 1
     }
 
-    fn is_TwoPair(counters: &HashMap<Value, usize>) -> bool {
+    fn is_two_pair(counters: &HashMap<Value, usize>) -> bool {
         Self::find_value(counters, 2) == 2
     }
 
-    fn is_OnePair(counters: &HashMap<Value, usize>) -> bool {
+    fn is_one_pair(counters: &HashMap<Value, usize>) -> bool {
         Self::find_value(counters, 2) == 1
     }
 }
