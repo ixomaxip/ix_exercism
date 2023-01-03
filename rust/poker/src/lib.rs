@@ -232,7 +232,7 @@ impl fmt::Display for PokerHand {
             .map(|c| format!("{:?} - {:?}", c.value, c.suit))
             .collect::<Vec<_>>();
 
-        write!(f, "{:?}", cards.join(" | "))
+        write!(f, "rank {:?}: {:?}", self.rank, cards.join(" | "))
     }
 }
 /// Given a list of poker hands, return a list of those hands which win.
