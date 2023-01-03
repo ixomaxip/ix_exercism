@@ -183,11 +183,11 @@ impl PokerHand {
         let cards = [cards[0], cards[1], cards[2], cards[3], cards[4]];
         PokerHand {
             cards: cards,
-            rank: Self::get_rank(&cards),
+            rank: Self::calc_rank(&cards),
         }
     }
 
-    fn get_rank(cards: &[Card]) -> Rank {
+    fn calc_rank(cards: &[Card]) -> Rank {
 
         let counters: HashMap<Value, usize> = cards
             .iter()
@@ -196,31 +196,43 @@ impl PokerHand {
                 map
             });
             println!("{:?}", counters);
+            if Self::is_FiveKind(&counters) {
+                Rank::FiveKind
+            } else if Self::is_FourKind(&counters) {
+                Rank::FourKind
+            } else if Self::is_ThreeKind(&counters) {
+                Rank::ThreeKind
+            } else if Self::is_TwoPair(&counters) {
+                Rank::TwoPair
+            } else if Self::is_OnePair(&counters) {
+                Rank::OnePair
+            } else {
+                Rank::HighCard
+            }
 
-            Rank::NA
     }
 
-    fn find_value(map: HashMap<Value, usize>, value: usize) -> usize {
+    fn find_value(map: &HashMap<Value, usize>, value: usize) -> usize {
         map.values().fold(0, |acc, &v| if v == value {acc + 1 } else { acc })
     }
 
-    fn is_FiveKind(&self, counters: HashMap<Value, usize>) -> bool {
+    fn is_FiveKind(counters: &HashMap<Value, usize>) -> bool {
         Self::find_value(counters, 5) == 1
     }
 
-    fn is_FourKind(&self, counters: HashMap<Value, usize>) -> bool {
+    fn is_FourKind(counters: &HashMap<Value, usize>) -> bool {
         Self::find_value(counters, 4) == 1
     }
 
-    fn is_ThreeKind(&self, counters: HashMap<Value, usize>) -> bool {
+    fn is_ThreeKind(counters: &HashMap<Value, usize>) -> bool {
         Self::find_value(counters, 3) == 1
     }
 
-    fn is_TwoPair(&self, counters: HashMap<Value, usize>) -> bool {
+    fn is_TwoPair(counters: &HashMap<Value, usize>) -> bool {
         Self::find_value(counters, 2) == 2
     }
 
-    fn is_OnePair(&self, counters: HashMap<Value, usize>) -> bool {
+    fn is_OnePair(counters: &HashMap<Value, usize>) -> bool {
         Self::find_value(counters, 2) == 1
     }
 }
@@ -240,7 +252,7 @@ impl fmt::Display for PokerHand {
 /// Note the type signature: this function should return _the same_ reference to
 /// the winning hand(s) as were passed in, not reconstructed strings which happen to be equal.
 pub fn winning_hands<'a>(hands: &[&'a str]) -> Vec<&'a str> {
-    let result_hands: Vec<&str> = vec![];
+    let mut result_hands: Vec<&str> = vec![];
 
     let t_hands = hands
         .iter()
@@ -248,11 +260,12 @@ pub fn winning_hands<'a>(hands: &[&'a str]) -> Vec<&'a str> {
         .collect::<Vec<_>>();
 
     for h in t_hands {
-        println!("{:}", PokerHand::get_rank(&h.cards));
+        println!("hand {:}", h);
     }
 
-    let mut hands_vec = Rank::into_enum_iter().collect::<Vec<_>>();
-    println!("{:}", hands_vec.iter().max().unwrap());
+    for h in hands {
+        result_hands.push(h)
+    }
 
     result_hands
 }
