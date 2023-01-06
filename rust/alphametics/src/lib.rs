@@ -21,6 +21,13 @@ pub fn solve(input: &str) -> Option<HashMap<char, u8>> {
         //         map
         //     });
         
+    println!("letters {:?}", letters.len());
+    let items: Vec<u8> = (0..9).collect();
+    for perm in items.iter().permutations(letters.len()).unique() {
+        // println!("{:?}", perm)
+        let mapping: HashMap<&char, &&u8> = letters.iter().zip(perm.iter()).collect();
+        println!("mapping: {:?}", mapping);
+    }    
 
     Some(HashMap::new())
 }
