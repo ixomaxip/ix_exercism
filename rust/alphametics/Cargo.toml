@@ -2,3 +2,7 @@
 edition = "2021"
 name = "alphametics"
 version = "1.3.0"
+
+[dependencies]
+regex = "1.4.6"
+itertools = "0.10.5"
