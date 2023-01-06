@@ -3,6 +3,17 @@ use std::collections::HashMap;
 use regex::Regex;
 use itertools::Itertools;
 
+fn is_valid(words: &Vec<&str>, mapping: &HashMap<&char, &&u8>) -> bool {
+    let mut result = true;
+    for w in words {
+        let fst = w.chars().nth(0).unwrap();
+        if mapping[&fst] == &&0 {
+            result = false;
+        }
+    }
+    result
+}
+
 pub fn solve(input: &str) -> Option<HashMap<char, u8>> {
     let sep = Regex::new(r".\+.|.==.");
     let words: Vec<_> = sep
@@ -27,6 +38,9 @@ pub fn solve(input: &str) -> Option<HashMap<char, u8>> {
         // println!("{:?}", perm)
         let mapping: HashMap<&char, &&u8> = letters.iter().zip(perm.iter()).collect();
         println!("mapping: {:?}", mapping);
+        if !is_valid(&words, &mapping)  {
+            continue;
+        }
     }    
 
     Some(HashMap::new())
