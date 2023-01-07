@@ -12,6 +12,15 @@ fn is_valid(words: &Vec<&str>, mapping: &HashMap<&char, &&u8>) -> bool {
     }
     true
 }
+
+fn parse_word(word: &str, mapping: &HashMap<&char, &&u8>) -> i32 {
+    let mut number: i32 = 0;
+    let l = word.len();
+    for (idx, c) in word.chars().enumerate() {
+        number += **mapping[&c] as i32 * i32::pow(10, (l - idx - 1) as u32);
+    }
+    number
+
 }
 
 pub fn solve(input: &str) -> Option<HashMap<char, u8>> {
@@ -33,15 +42,24 @@ pub fn solve(input: &str) -> Option<HashMap<char, u8>> {
         //     });
         
     println!("letters {:?}", letters.len());
-    let items: Vec<u8> = (0..9).collect();
-    for perm in items.iter().permutations(letters.len()).unique() {
+    let digits: Vec<u8> = (0..=9).collect();
+    for perm in digits.iter().permutations(letters.len()).unique() {
         // println!("{:?}", perm)
         let mapping: HashMap<&char, &&u8> = letters.iter().zip(perm.iter()).collect();
-        println!("mapping: {:?}", mapping);
         if !is_valid(&words, &mapping)  {
             continue;
         }
-    }    
-
-    Some(HashMap::new())
+        let mut sum: i32 = 0;
+        for (w_idx, w) in words.iter().enumerate() {
+            if w_idx == words.len() - 1 {
+                sum += parse_word(w, &mapping);
+            } else {
+                sum -= parse_word(w, &mapping);
+            }
+        }
+        
+        if sum == 0 {
+            println!("solution {:?}", mapping);
+        }
+    }
 }
