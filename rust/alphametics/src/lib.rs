@@ -3,16 +3,6 @@ use std::collections::HashMap;
 use regex::Regex;
 use itertools::Itertools;
 
-fn is_valid(words: &Vec<&str>, mapping: &HashMap<&char, &&i32>) -> bool {
-    for w in words {
-        let fst = w.chars().nth(0).unwrap();
-        if **mapping[&fst] == 0 {
-            return false;
-        }
-    }
-    true
-}
-
 fn parse_word(word: &str, mapping: &HashMap<&char, &&i32>) -> i32 {
     let mut number = 0;
     let l = word.len();
@@ -20,6 +10,21 @@ fn parse_word(word: &str, mapping: &HashMap<&char, &&i32>) -> i32 {
         number += **mapping[&c] * i32::pow(10, (l - idx - 1) as u32);
     }
     number
+}
+
+fn parse_words(words: &Vec<&str>, mapping: &HashMap<&char, &&i32>) -> Option<i32> {
+    let mut sum = 0;
+    for (w_idx, w) in words.iter().enumerate() {
+        if **mapping[&w.chars().nth(0).unwrap()] == 0 {
+            return None;
+        }
+        if w_idx == words.len() - 1 {
+            sum += parse_word(w, mapping);
+        } else {
+            sum -= parse_word(w, mapping);
+        }
+    }
+    Some(sum)
 }
 
 fn convert_solution(mapping: &HashMap<&char, &&i32>) -> HashMap<char, u8> {
@@ -48,20 +53,10 @@ pub fn solve(input: &str) -> Option<HashMap<char, u8>> {
     let digits: Vec<i32> = (0..=9).collect();
     for perm in digits.iter().permutations(letters.len()).unique() {
         let mapping: HashMap<&char, &&i32> = letters.iter().zip(perm.iter()).collect();
-        if !is_valid(&words, &mapping)  {
-            continue;
-        }
-        let mut sum = 0;
-        for (w_idx, w) in words.iter().enumerate() {
-            if w_idx == words.len() - 1 {
-                sum += parse_word(w, &mapping);
-            } else {
-                sum -= parse_word(w, &mapping);
-            }
-        }
-        if sum == 0 {
-            let solution = convert_solution(&mapping);
-            return Some(solution);
+        match parse_words(&words, & mapping) {
+            Some(_s) if _s == 0 => return Some(convert_solution(&mapping)),
+            Some(_s) => continue,
+            None => continue
         }
     }
     None
