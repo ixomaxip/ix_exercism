@@ -4,14 +4,14 @@ use regex::Regex;
 use itertools::Itertools;
 
 fn is_valid(words: &Vec<&str>, mapping: &HashMap<&char, &&u8>) -> bool {
-    let mut result = true;
     for w in words {
         let fst = w.chars().nth(0).unwrap();
         if mapping[&fst] == &&0 {
-            result = false;
+            return false;
         }
     }
-    result
+    true
+}
 }
 
 pub fn solve(input: &str) -> Option<HashMap<char, u8>> {
