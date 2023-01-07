@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use regex::Regex;
 use itertools::Itertools;
 
-fn is_valid(words: &Vec<&str>, mapping: &HashMap<&char, &&u8>) -> bool {
+fn is_valid(words: &Vec<&str>, mapping: &HashMap<&char, &&i32>) -> bool {
     for w in words {
         let fst = w.chars().nth(0).unwrap();
         if **mapping[&fst] == 0 {
@@ -13,14 +13,13 @@ fn is_valid(words: &Vec<&str>, mapping: &HashMap<&char, &&u8>) -> bool {
     true
 }
 
-fn parse_word(word: &str, mapping: &HashMap<&char, &&u8>) -> i32 {
-    let mut number: i32 = 0;
+fn parse_word(word: &str, mapping: &HashMap<&char, &&i32>) -> i32 {
+    let mut number = 0;
     let l = word.len();
     for (idx, c) in word.chars().enumerate() {
-        number += **mapping[&c] as i32 * i32::pow(10, (l - idx - 1) as u32);
+        number += **mapping[&c] * i32::pow(10, (l - idx - 1) as u32);
     }
     number
-
 }
 
 pub fn solve(input: &str) -> Option<HashMap<char, u8>> {
@@ -30,6 +29,7 @@ pub fn solve(input: &str) -> Option<HashMap<char, u8>> {
         .split(input)
         .into_iter()
         .collect();
+
     let letters: Vec<char> = words
         .join("")
         .chars()
@@ -37,13 +37,13 @@ pub fn solve(input: &str) -> Option<HashMap<char, u8>> {
         .sorted()
         .collect();
     
-    let digits: Vec<u8> = (0..=9).collect();
+    let digits: Vec<i32> = (0..=9).collect();
     for perm in digits.iter().permutations(letters.len()).unique() {
-        let mapping: HashMap<&char, &&u8> = letters.iter().zip(perm.iter()).collect();
+        let mapping: HashMap<&char, &&i32> = letters.iter().zip(perm.iter()).collect();
         if !is_valid(&words, &mapping)  {
             continue;
         }
-        let mut sum: i32 = 0;
+        let mut sum = 0;
         for (w_idx, w) in words.iter().enumerate() {
             if w_idx == words.len() - 1 {
                 sum += parse_word(w, &mapping);
