@@ -22,6 +22,14 @@ fn parse_word(word: &str, mapping: &HashMap<&char, &&i32>) -> i32 {
     number
 }
 
+fn convert_solution(mapping: &HashMap<&char, &&i32>) -> HashMap<char, u8> {
+    let mut result = vec![];
+    for (key, val) in mapping {
+        result.push((**key, ***val as u8));    
+    }
+    result.iter().cloned().collect()
+}
+
 pub fn solve(input: &str) -> Option<HashMap<char, u8>> {
     let sep = Regex::new(r".\+.|.==.");
     let words: Vec<_> = sep
@@ -52,8 +60,8 @@ pub fn solve(input: &str) -> Option<HashMap<char, u8>> {
             }
         }
         if sum == 0 {
-            println!("solution {:?}", mapping);
-            return None;
+            let solution = convert_solution(&mapping);
+            return Some(solution);
         }
     }
     None
