@@ -6,7 +6,7 @@ use itertools::Itertools;
 fn is_valid(words: &Vec<&str>, mapping: &HashMap<&char, &&u8>) -> bool {
     for w in words {
         let fst = w.chars().nth(0).unwrap();
-        if mapping[&fst] == &&0 {
+        if **mapping[&fst] == 0 {
             return false;
         }
     }
@@ -30,21 +30,15 @@ pub fn solve(input: &str) -> Option<HashMap<char, u8>> {
         .split(input)
         .into_iter()
         .collect();
-    println!("words: {:?}", words);
-    let letters: Vec<char> = words.join("").chars().unique().sorted().collect();
+    let letters: Vec<char> = words
+        .join("")
+        .chars()
+        .unique()
+        .sorted()
+        .collect();
     
-    // let letters = input
-    //     .chars()
-    //     .filter(|c| c.is_alphanumeric())
-    //     .fold(HashMap::new(), | mut map, c| {
-        //         *map.entry(c).or_insert(0);
-        //         map
-        //     });
-        
-    println!("letters {:?}", letters.len());
     let digits: Vec<u8> = (0..=9).collect();
     for perm in digits.iter().permutations(letters.len()).unique() {
-        // println!("{:?}", perm)
         let mapping: HashMap<&char, &&u8> = letters.iter().zip(perm.iter()).collect();
         if !is_valid(&words, &mapping)  {
             continue;
@@ -57,9 +51,10 @@ pub fn solve(input: &str) -> Option<HashMap<char, u8>> {
                 sum -= parse_word(w, &mapping);
             }
         }
-        
         if sum == 0 {
             println!("solution {:?}", mapping);
+            return None;
         }
     }
+    None
 }
