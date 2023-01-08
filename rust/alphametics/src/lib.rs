@@ -2,28 +2,34 @@ use std::collections::HashMap;
 use regex::Regex;
 use itertools::Itertools;
 
-fn parse_word(word: &str, mapping: &HashMap<char, u8>) -> i64 {
+fn parse_word(word: &str, mapping: &HashMap<char, u8>) -> u64 {
     let mut number = 0;
-    let l = word.len();
-    for (idx, c) in word.chars().enumerate() {
-        number += mapping[&c] as i64 * i64::pow(10, (l - idx - 1) as u32);
+    let mut mult = u64::pow(10, (word.len() - 1) as u32);
+    for c in word.chars() {
+        number += mapping[&c] as u64 * mult;
+        mult /= 10;
     }
     number
 }
 
-fn parse_words(words: &Vec<&str>, mapping: &HashMap<char, u8>) -> Option<i64> {
-    let mut sum = 0;
+fn parse_words(words: &Vec<&str>, mapping: &HashMap<char, u8>) -> Option<bool> {
+    let mut lhs_sum = 0;
+    let mut rhs = 0;
     for (w_idx, w) in words.iter().enumerate() {
         if mapping[&w.chars().nth(0).unwrap()] == 0 {
             return None;
         }
         if w_idx == words.len() - 1 {
-            sum += parse_word(w, mapping) as i64;
+            lhs_sum += parse_word(w, mapping);
         } else {
-            sum -= parse_word(w, mapping) as i64;
+            rhs += parse_word(w, mapping);
         }
     }
-    Some(sum)
+    match lhs_sum == rhs {
+        true => Some(true),
+        false => None
+    }
+    // Some(sum)
 }
 
 pub fn solve(input: &str) -> Option<HashMap<char, u8>> {
@@ -44,8 +50,7 @@ pub fn solve(input: &str) -> Option<HashMap<char, u8>> {
     for perm in (0..=9).permutations(letters.len()) {
         let mapping = HashMap::from_iter(letters.iter().map(|x| *x as char).zip(perm.iter().map(|x| *x as u8)));
         match parse_words(&words, &mapping) {
-            Some(_s) if _s == 0 => return Some(mapping),
-            Some(_s) => continue,
+            Some(_)=> return Some(mapping),
             None => continue
         }
     }
