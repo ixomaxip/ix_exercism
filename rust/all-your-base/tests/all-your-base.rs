@@ -13,7 +13,7 @@ fn single_bit_one_to_decimal() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn binary_to_single_decimal() {
     let input_base = 2;
     let input_digits = &[1, 0, 1];
@@ -26,7 +26,7 @@ fn binary_to_single_decimal() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn single_decimal_to_binary() {
     let input_base = 10;
     let input_digits = &[5];
@@ -39,7 +39,7 @@ fn single_decimal_to_binary() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn binary_to_multiple_decimal() {
     let input_base = 2;
     let input_digits = &[1, 0, 1, 0, 1, 0];
@@ -52,7 +52,7 @@ fn binary_to_multiple_decimal() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn decimal_to_binary() {
     let input_base = 10;
     let input_digits = &[4, 2];
@@ -65,7 +65,7 @@ fn decimal_to_binary() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn trinary_to_hexadecimal() {
     let input_base = 3;
     let input_digits = &[1, 1, 2, 0];
@@ -78,7 +78,7 @@ fn trinary_to_hexadecimal() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn hexadecimal_to_trinary() {
     let input_base = 16;
     let input_digits = &[2, 10];
@@ -91,7 +91,7 @@ fn hexadecimal_to_trinary() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn fifteen_bit_integer() {
     let input_base = 97;
     let input_digits = &[3, 46, 60];
