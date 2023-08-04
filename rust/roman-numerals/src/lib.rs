@@ -1,40 +1,4 @@
-use std::fmt;
-use std::fmt::{Display, Formatter, Result, Debug};
-use int_enum::IntEnum;
-use enum_iterator::IntoEnumIterator;
-
-
-#[repr(usize)]
-#[derive(Clone, Copy, Debug, Eq, PartialEq, IntEnum, IntoEnumIterator)]
-enum RomanLetters {
-    M = 1000,
-    CM = 900,
-    D = 500,
-    CD = 400,
-    C = 100,
-    XC = 90,
-    L = 50,
-    XL = 40,
-    X = 10,
-    IX = 9,
-    V = 5,
-    IV = 4,
-    I = 1
-}
-
-impl fmt::Display for RomanLetters {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        Debug::fmt(self, f)
-    }
-}
-
-fn value_to_roman_string(value: usize) -> String {
-    match RomanLetters::from_int(value) {
-        Ok(color) => color.to_string(),
-        Err(_) => String::from("value out of range"),
-    }
-}
-
+use std::fmt::{Display, Formatter, Result};
 pub struct Roman {
     roman: String
 }
@@ -47,14 +11,21 @@ impl Display for Roman {
 
 impl From<u32> for Roman {
     fn from(num: u32) -> Self {
+        let romans = vec!(
+            (1000, "M"), (900, "CM"),
+            (500, "D"), (400, "CD"),
+            (100, "C",), (90, "XC"),
+            (50, "L"), (40, "XL"),
+            (10, "X"), (9, "IX"),
+            (5, "V"), (4, "IV"),
+            (1, "I"));
+            
         let mut n = num;
-        let letters = RomanLetters::into_enum_iter()
-            .fold(String::new(), |mut s, l| {
-                let val = l.int_value() as u32;                
-                while n >= val {
-                    n -= val;
-                    dbg!(n);
-                    s += &l.to_string();
+        let letters = romans.iter()
+            .fold(String::new(), |mut s, (dec, rom)| {
+                while n >= *dec {
+                    n -= dec;
+                    s += *rom;
                 }
                 s
             });
