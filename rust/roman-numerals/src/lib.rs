@@ -35,14 +35,29 @@ fn value_to_roman_string(value: usize) -> String {
     }
 }
 
+pub struct Roman {
+    roman: String
+}
+
 impl Display for Roman {
     fn fmt(&self, _f: &mut Formatter<'_>) -> Result {
-        unimplemented!("Return a roman-numeral string representation of the Roman object");
+        write!(_f, "{}", self.roman)
     }
 }
 
 impl From<u32> for Roman {
     fn from(num: u32) -> Self {
-        unimplemented!("Construct a Roman object from the '{num}' number");
+        let mut n = num;
+        let letters = RomanLetters::into_enum_iter()
+            .fold(String::new(), |mut s, l| {
+                let val = l.int_value() as u32;                
+                while n >= val {
+                    n -= val;
+                    dbg!(n);
+                    s += &l.to_string();
+                }
+                s
+            });
+        Roman {roman: letters}
     }
 }
