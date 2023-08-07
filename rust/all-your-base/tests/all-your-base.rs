@@ -104,7 +104,7 @@ fn fifteen_bit_integer() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn empty_list() {
     let input_base = 2;
     let input_digits = &[];
@@ -117,7 +117,7 @@ fn empty_list() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn single_zero() {
     let input_base = 10;
     let input_digits = &[0];
@@ -130,7 +130,7 @@ fn single_zero() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn multiple_zeros() {
     let input_base = 10;
     let input_digits = &[0, 0, 0];
@@ -143,7 +143,7 @@ fn multiple_zeros() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn leading_zeros() {
     let input_base = 7;
     let input_digits = &[0, 6, 0];

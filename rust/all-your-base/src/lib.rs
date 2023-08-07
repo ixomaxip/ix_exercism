@@ -36,23 +36,38 @@ pub enum Error {
 ///  * Never output leading 0 digits, unless the input number is 0, in which the output must be `[0]`.
 ///    However, your function must be able to process input with leading 0 digits.
 ///
-pub fn convert(digits: &[u32], from_base: u32, to_base: u32) -> Result<Vec<u32>, Error> {
-    // vec_to_dec
-    let mut mult = u32::pow(from_base, (digits.len() - 1) as u32);
-    let mut dec_number = digits.iter().fold(0, |mut sum, d| {
-        sum += d * mult;
-        mult /= from_base;
-        sum
-    });
-    dbg!(&dec_number);
-    // dec_to_vec
-    let mut new_digits = vec![];
-    while dec_number > 0 {
-        let (q, r) = (dec_number / to_base, dec_number % to_base);
-        new_digits.push(r);
-        dec_number = q;
+
+fn vec_to_dec(digits: &[u32], base: u32) -> u32 {
+    if digits.is_empty() {
+        return 0
     }
-    new_digits = new_digits.into_iter().rev().collect();
+    let mut mult = u32::pow(base, (digits.len() - 1) as u32);
+    digits.iter().fold(0, |mut sum, d| {
+            sum += d * mult;
+            mult /= base;
+            sum
+        })
+}
+
+fn dec_to_vec(dec_number: u32, base: u32) -> Vec<u32> {
+    if dec_number == 0 {
+        return vec![0]
+    }
+    
+    let mut digits = vec![];
+    let mut decimal = dec_number;
+    while decimal > 0 {
+        let (q, r) = (decimal / base, decimal % base);
+        digits.push(r);
+        decimal = q;
+    }
+    digits.into_iter().rev().collect()
+}
+
+pub fn convert(digits: &[u32], from_base: u32, to_base: u32) -> Result<Vec<u32>, Error> {
+    let dec_number = vec_to_dec(digits, from_base);
+    dbg!(&dec_number);
+    let new_digits = dec_to_vec(dec_number, to_base);
     dbg!(&new_digits);    
     
     Ok(new_digits)
