@@ -37,21 +37,36 @@ pub enum Error {
 ///    However, your function must be able to process input with leading 0 digits.
 ///
 
-fn vec_to_dec(digits: &[u32], base: u32) -> u32 {
-    if digits.is_empty() {
-        return 0
+fn vec_to_dec(digits: &[u32], base: u32) -> Result<u32, Error> {
+    if base <= 1 {
+        return Err(Error::InvalidInputBase)
     }
+    if digits.is_empty() {
+        return Ok(0)
+    }
+    
     let mut mult = u32::pow(base, (digits.len() - 1) as u32);
-    digits.iter().fold(0, |mut sum, d| {
-            sum += d * mult;
-            mult /= base;
-            sum
-        })
+    let decimal = digits.iter()
+        .fold(0, |mut sum, d| {
+                dbg!(&d);
+                sum += d * mult;
+                mult /= base;
+                sum
+        });
+
+    // match decimal {
+    //     Err(e) => return Err(e),
+
+    // }
+    Ok(decimal)
 }
 
-fn dec_to_vec(dec_number: u32, base: u32) -> Vec<u32> {
+fn dec_to_vec(dec_number: u32, base: u32) -> Result<Vec<u32>, Error> {
+    if base <= 1 {
+        return Err(Error::InvalidOutputBase)
+    }
     if dec_number == 0 {
-        return vec![0]
+        return Ok(vec![0])
     }
     
     let mut digits = vec![];
@@ -61,14 +76,13 @@ fn dec_to_vec(dec_number: u32, base: u32) -> Vec<u32> {
         digits.push(r);
         decimal = q;
     }
-    digits.into_iter().rev().collect()
+    Ok(digits.into_iter().rev().collect())
 }
 
 pub fn convert(digits: &[u32], from_base: u32, to_base: u32) -> Result<Vec<u32>, Error> {
-    let dec_number = vec_to_dec(digits, from_base);
-    dbg!(&dec_number);
-    let new_digits = dec_to_vec(dec_number, to_base);
-    dbg!(&new_digits);    
-    
-    Ok(new_digits)
+    let decimal = vec_to_dec(digits, from_base);
+    match decimal {
+        Err(e) => return Err(e),
+        Ok(d) => return dec_to_vec(d, to_base)
+    }
 }

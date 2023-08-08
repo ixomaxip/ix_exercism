@@ -168,7 +168,7 @@ fn invalid_positive_digit() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn input_base_is_one() {
     let input_base = 1;
     let input_digits = &[];
@@ -180,7 +180,7 @@ fn input_base_is_one() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn output_base_is_one() {
     let input_base = 2;
     let input_digits = &[1, 0, 1, 0, 1, 0];
@@ -192,7 +192,7 @@ fn output_base_is_one() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn input_base_is_zero() {
     let input_base = 0;
     let input_digits = &[];
@@ -204,7 +204,7 @@ fn input_base_is_zero() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn output_base_is_zero() {
     let input_base = 10;
     let input_digits = &[7];
